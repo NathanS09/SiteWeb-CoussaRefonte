@@ -3,6 +3,45 @@
   const visible = ref(true)
 </script>
 
+<script>
+  export default {
+    name: "navigation",
+    data() {
+        return {
+            mobile: null,
+            mobileNav: null,
+            scrollPosition: null,
+            windowWidth: null,
+            isClubMenuOpen: false,
+        };
+    },
+    created() {
+        window.addEventListener("scroll", this.handleScroll);
+        window.addEventListener("resize", this.checkScreen);
+        this.handleScroll();
+        this.checkScreen();
+    },
+    methods: {
+        toggleMobileNav() {
+            this.mobileNav = !this.mobileNav;
+        },
+        handleScroll() {
+            this.scrollPosition = window.scrollY > 50;
+        },
+        checkScreen() {
+            this.windowWidth = window.innerWidth < 970;
+            this.mobile = this.windowWidth;
+            if (!this.mobile) {
+                this.mobileNav = false;
+            }
+        },
+        toggleClubMenu() {
+            this.isClubMenuOpen = !this.isClubMenuOpen;
+        },
+    },
+  }
+</script>
+
 <template>
     <header :class="{'scrolled-nav': scrollPosition}">
         <nav>
@@ -13,8 +52,19 @@
             <li>
                 <router-link class="link" :to="{name: 'Home'}"><i class="fas fa-home"></i> Accueil</router-link>
             </li>
-            <li>
-                <router-link class="link" :to="{name: 'Home'}"><i class="fas fa-info-circle"></i> Le club <i class="fas fa-chevron-down"></i></router-link>
+            <li @mouseenter="toggleClubMenu" @mouseleave="toggleClubMenu">
+                <router-link class="link" :to="{name: 'Club'}"><i class="fas fa-info-circle"></i> Le club <i class="fas fa-chevron-down"></i></router-link>
+                <ul v-show="isClubMenuOpen" class="dropdown-submenu">
+                        <li>
+                            <router-link class="link" :to="{name: 'Home'}">Historique</router-link>
+                        </li>
+                        <li>
+                            <router-link class="link" :to="{name: 'Home'}">Bureau</router-link>
+                        </li>
+                        <li>
+                            <router-link class="link" :to="{name: 'Home'}">Staff</router-link>
+                        </li>
+                    </ul>
             </li>
             <li>
                 <router-link class="link" :to="{name: 'Home'}"><i class="fas fa-users"></i> Equipes</router-link>
@@ -34,6 +84,8 @@
         </ul>
 
         <div class="icon">
+
+    
             <i @click="toggleMobileNav" v-show="mobile" class="far fa-bars" :class="{'icon-active': mobileNav}"></i>
         </div>
         <transition name="mobile-nav">
@@ -41,8 +93,19 @@
                 <li>
                 <router-link class="link" :to="{name: 'Home'}"><i class="fas fa-home"></i> Accueil</router-link>
             </li>
-            <li>
-                <router-link class="link" :to="{name: 'Home'}"><i class="fas fa-info-circle"></i> Le club <i class="fas fa-chevron-down"></i></router-link>
+            <li @click="toggleClubMenu">
+                <router-link class="link" :to="{name: 'Club'}"><i class="fas fa-info-circle"></i> Le club <i class="fas fa-chevron-down"></i></router-link>
+                <ul v-show="isClubMenuOpen" class="dropdown-submenu">
+                    <li>
+                        <router-link class="link" :to="{name: 'Home'}">Historique</router-link>
+                    </li>
+                    <li>
+                        <router-link class="link" :to="{name: 'Home'}">Bureau</router-link>
+                    </li>
+                    <li>
+                        <router-link class="link" :to="{name: 'Home'}">Staff</router-link>
+                    </li>
+                </ul>
             </li>
             <li>
                 <router-link class="link" :to="{name: 'Home'}"><i class="fas fa-users"></i> Equipes</router-link>
@@ -68,43 +131,9 @@
     </header>
 </template>
 
-<script>
-  export default {
-    name: "navigation",
-    data() {
-        return {
-            mobile: null,
-            mobileNav: null,
-            scrollPosition: null,
-            windowWidth: null,
-        };
-    },
-    created() {
-        window.addEventListener("scroll", this.handleScroll);
-        window.addEventListener("resize", this.checkScreen);
-        this.handleScroll();
-        this.checkScreen();
-    },
-    methods: {
-        toggleMobileNav() {
-            this.mobileNav = !this.mobileNav;
-        },
-        handleScroll() {
-            this.scrollPosition = window.scrollY > 50;
-            console.log(this.scrollPosition);
-        },
-        checkScreen() {
-            this.windowWidth = window.innerWidth < 970;
-            this.mobile = this.windowWidth;
-            if (!this.mobile) {
-                this.mobileNav = false;
-            }
-        },
-    },
-  }
-</script>
 <style lang="scss", scoped>
 
+/* === HEADER === */
 header {
     position: fixed;
     top: 0;
@@ -114,181 +143,206 @@ header {
     background-color: rgba(0, 0, 0, 0.8);
     transition: 0.5s ease all;
     color: #fff;
+
+    &.scrolled-nav {
+        background-color: #000;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
 }
 
-nav{
-    position: relative;
+/* === NAVIGATION === */
+nav {
     display: flex;
-    flex-direction: row;
+    align-items: center;
     padding: 8px 0;
-    transition: 0.5s ease all;
     width: 90%;
     margin: 0 auto;
-    @media(min-width: 1140px){
-        max-width: 1140px;
-    }
-    
-    ul,
-    .link{
-        list-style: none;
-        text-decoration: none;
-        color: #fff;
-        font-weight: 500;
-    }
-
-    li {
-        text-transform: uppercase;
-        margin-left: 16px;
-        padding: 12px;
-    }
-
-    .link {
-        font-size: 14px;
-        transition: 0.5s ease all;
-        padding-bottom: 4px;
-        border-bottom: 1px solid transparent;
-
-        &:hover {
-            color: #00afea;
-            border-color: #00afea;
-        }
-    }
 
     .branding {
-       display: flex;
-       align-items: center;
-
-       img {
-           width: 50px;
-           transition: 0.5s ease all;
-       }
-    }
-
-    .navigation {
         display: flex;
         align-items: center;
-        justify-content: flex-end;
-        flex: 1;
-    }
 
-    .icon {
-        display: flex;
-        position: absolute;
-        right: 24px;
-        top: 0;
-        align-items: center;
-        height: 100%;
-        
-        i {
-            font-size: 24px;
-            cursor: pointer;
-            transition: 0.8s ease all;
+        img {
+            width: 50px;
+            transition: 0.5s ease all;
+
+            header.scrolled-nav & {
+                width: 40px;
+            }
         }
+    }
+
+    ul {
+        display: flex;
+        align-items: center;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        li {
+            position: relative;
+            padding: 12px;
+            text-transform: uppercase;
+            font-size: 14px;
+
+            &:hover > .dropdown-submenu {
+                display: flex;
+            }
+
+            .link {
+                display: flex;
+                align-items: center;
+                color: #fff;
+                transition: color 0.3s ease;
+
+                &:hover {
+                    color: #00afea;
+                }
+            }
+        }
+    }
+}
+
+/* === DESKTOP NAVIGATION === */
+.navigation {
+    flex: 1;
+    justify-content: flex-end;
+}
+
+/* === MOBILE ICON === */
+.icon {
+    display: flex;
+    position: absolute;
+    right: 24px;
+    top: 0;
+    align-items: center;
+    height: 100%;
+
+    i {
+        font-size: 24px;
+        cursor: pointer;
+        transition: 0.8s ease all;
     }
 
     .icon-active {
         transform: rotate(180deg);
     }
+}
 
-    .dropdown-nav {
-        position: fixed;
-        width: 100%;
-        max-width: 250px;
-        top: 0;
-        left: 0;
-        background-color: #fff;
-        display: flex;
-        flex-direction: column;
-        height: 100%;
+/* === MOBILE DROPDOWN === */
+.dropdown-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-width: 250px;
+    background-color: #000;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 
-        li {
-            margin-left: 0;
+    li {
+        margin-left: 0;
 
-            .link {
-                color: #000;
-            }
+        .link {
+            color: #fff;
         }
     }
 
+    .dropdown-submenu {
+        display: none;
+        flex-direction: column;
+        background-color: #111;
+        padding: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        position: relative;
+        top: 0;
 
+        li {
+            margin: 8px 0;
 
-}
+            .link {
+                color: #fff;
+                font-size: 14px;
 
-.scrolled-nav {
-        background-color: #000;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-
-        nav {
-            padding: 8px 0;
-
-            .branding {
-                img {
-                    width: 40px;
-                    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+                &:hover {
+                    color: #00afea;
                 }
             }
         }
     }
+}
 
-/* Navigation commune à toutes les tailles */
+/* === SUBMENU === */
+.dropdown-submenu {
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    background-color: #000;
+    padding: 10px;
+    top: 100%;
+    left: 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    li {
+        margin: 8px 0;
+
+        .link {
+            color: #fff;
+            font-size: 14px;
+
+            &:hover {
+                color: #00afea;
+            }
+        }
+    }
+}
+
+/* === MOBILE NAVIGATION ANIMATION === */
+.mobile-nav-enter-active,
+.mobile-nav-leave-active {
+    transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.mobile-nav-enter-from,
+.mobile-nav-leave-to {
+    transform: translateX(-250px);
+    opacity: 0;
+}
+
+.mobile-nav-enter-to,
+.mobile-nav-leave-from {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+/* === UTILITIES === */
 ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 .link {
-  font-size: 14px; /* Taille commune */
-  text-transform: uppercase;
-  text-decoration: none;
-  color: #fff;
-  transition: 0.3s ease all;
-  padding: 8px 0px; /* Padding identique */
+    text-decoration: none;
+    text-transform: uppercase;
+    color: #fff;
+    font-size: 14px;
+    transition: color 0.3s ease;
 
-  &:hover {
-    color: #00afea;
-    border-color: #00afea;
-  }
+    &:hover {
+        color: #00afea;
+    }
 }
 
-li {
-  margin: 0; /* Suppression des marges conditionnelles */
-}
 
-/* Desktop navigation */
-.navigation {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 16px; /* Espacement horizontal uniforme */
-}
+.logo {
+    width: 100%;
+    transition: 0.5s ease all;
 
-/* Mobile dropdown navigation */
-.dropdown-nav {
-  position: fixed;
-  width: 100%; /* Assurez-vous que la largeur est cohérente */
-  max-width: 250px;
-  top: 0;
-  left: 0;
-  background-color: #000; /* Uniformité des couleurs */
-  display: flex;
-  flex-direction: column;
-  gap: 8px; /* Espacement vertical uniforme */
-  height: 100%;
-}
-
-.dropdown-nav li .link {
-  color: #fff; /* Couleur adaptée pour mobile */
-}
-
-/* Logo branding */
-.branding img {
-  width: 50px;
-  transition: 0.3s ease all;
-}
-
-.scrolled-nav .branding img {
-  width: 40px; /* Taille du logo réduite au scroll */
+    header.scrolled-nav & {
+        width: 40px;
+    }
 }
 
 

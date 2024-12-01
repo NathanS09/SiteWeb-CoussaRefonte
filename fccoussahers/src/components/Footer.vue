@@ -52,7 +52,6 @@ export default {
 .footer {
     background-color: #000; /* Couleur identique au header */
     color: #fff;
-    padding: 20px;
     position: absolute; /* Permet de coller au bas */
     bottom: 0;
     left: 0;
@@ -70,7 +69,7 @@ export default {
 
 .footer-section {
     flex: 1;
-    min-width: 300px; /* Ajuste la taille minimale */
+    min-width: 260px; /* Ajuste la taille minimale */
     margin-bottom: 20px;
 }
 
