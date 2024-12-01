@@ -8,9 +8,9 @@
     name: "navigation",
     data() {
         return {
-            mobile: null,
-            mobileNav: null,
-            scrollPosition: null,
+            mobile: false,
+            mobileNav: false,
+            scrollPosition: false,
             windowWidth: null,
             isClubMenuOpen: false,
         };
@@ -53,13 +53,13 @@
                 <router-link class="link" :to="{name: 'Home'}"><i class="fas fa-home"></i> Accueil</router-link>
             </li>
             <li @mouseenter="toggleClubMenu" @mouseleave="toggleClubMenu">
-                <router-link class="link" :to="{name: 'Club'}"><i class="fas fa-info-circle"></i> Le club <i class="fas fa-chevron-down"></i></router-link>
+                <router-link class="link" :to="{name: 'Home'}"><i class="fas fa-info-circle"></i> Le club <i class="fas fa-chevron-down"></i></router-link>
                 <ul v-show="isClubMenuOpen" class="dropdown-submenu">
                         <li>
-                            <router-link class="link" :to="{name: 'Home'}">Historique</router-link>
+                            <router-link class="link" :to="{name: 'Bureau'}">Bureau</router-link>
                         </li>
                         <li>
-                            <router-link class="link" :to="{name: 'Home'}">Bureau</router-link>
+                            <router-link class="link" :to="{name: 'Bureau'}">Bureau</router-link>
                         </li>
                         <li>
                             <router-link class="link" :to="{name: 'Home'}">Staff</router-link>
@@ -79,7 +79,7 @@
                 <router-link class="link" :to="{name: 'Home'}"><i class="fas fa-shopping-cart"></i> Boutique</router-link>
             </li>
             <li>
-                <router-link class="link" :to="{name: 'Home'}"><i class="fab fa-facebook-f"></i> Page FaceBook</router-link>
+                <router-link class="link" :to="{name: 'Home'}"><i class="fab fa-facebook-f"> </i> Page FaceBook</router-link>
             </li>
         </ul>
 
@@ -94,13 +94,13 @@
                 <router-link class="link" :to="{name: 'Home'}"><i class="fas fa-home"></i> Accueil</router-link>
             </li>
             <li @click="toggleClubMenu">
-                <router-link class="link" :to="{name: 'Club'}"><i class="fas fa-info-circle"></i> Le club <i class="fas fa-chevron-down"></i></router-link>
+                <router-link class="link" :to="{name: 'Home'}"><i class="fas fa-info-circle"></i> Le club <i class="fas fa-chevron-down"></i></router-link>
                 <ul v-show="isClubMenuOpen" class="dropdown-submenu">
                     <li>
-                        <router-link class="link" :to="{name: 'Home'}">Historique</router-link>
+                        <router-link class="link" :to="{name: 'Bureau'}">Bureau</router-link>
                     </li>
                     <li>
-                        <router-link class="link" :to="{name: 'Home'}">Bureau</router-link>
+                        <router-link class="link" :to="{name: 'Bureau'}">Bureau</router-link>
                     </li>
                     <li>
                         <router-link class="link" :to="{name: 'Home'}">Staff</router-link>

@@ -53,7 +53,7 @@ export default {
     background-color: #000; /* Couleur identique au header */
     color: #fff;
     position: absolute; /* Permet de coller au bas */
-    bottom: 0;
+    text-align: center;
     left: 0;
     width: 100%;
 }
