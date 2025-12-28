@@ -1,5 +1,6 @@
 import React from 'react';
 import PlayerCard from './PlayerCard';
+import { clubConfig } from '../../config/clubConfig';
 interface Player {
   id: number;
   name: string;
@@ -19,9 +20,9 @@ const TeamFormation: React.FC<TeamFormationProps> = ({
   const midfielders = players.filter(p => p.position === 'Milieu');
   const forwards = players.filter(p => p.position === 'Attaquant');
   return <div className="py-8">
-      <div className="relative bg-green-600 rounded-lg overflow-hidden">
+      <div className={`relative bg-${clubConfig.colors.color600} rounded-lg overflow-hidden`}>
         {/* Football field background */}
-        <div className="w-full h-[600px] md:h-[700px] bg-green-600 relative">
+        <div className={`w-full h-[600px] md:h-[700px] bg-${clubConfig.colors.color600} relative`}>
           {/* Center circle */}
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 border-2 border-white rounded-full"></div>
           {/* Center line */}

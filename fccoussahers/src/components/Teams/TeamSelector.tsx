@@ -1,4 +1,5 @@
 import React from 'react';
+import { clubConfig } from '../../config/clubConfig';
 interface TeamSelectorProps {
   teams: Array<{
     id: string;
@@ -13,9 +14,9 @@ const TeamSelector: React.FC<TeamSelectorProps> = ({
   onSelectTeam
 }) => {
   return <div className="bg-white p-4 rounded-lg shadow-md">
-      <h2 className="text-xl font-bold text-green-800 mb-4">Nos Équipes</h2>
+      <h2 className={`text-xl font-bold text-${clubConfig.colors.primary} mb-4`}>Nos Équipes</h2>
       <div className="flex flex-wrap gap-2">
-        {teams.map(team => <button key={team.id} className={`px-4 py-2 rounded-md transition-colors ${activeTeam === team.id ? 'bg-green-700 text-white' : 'bg-gray-100 text-gray-800 hover:bg-gray-200'}`} onClick={() => onSelectTeam(team.id)}>
+        {teams.map(team => <button key={team.id} className={`px-4 py-2 rounded-md transition-colors ${activeTeam === team.id ? clubConfig.colors.secondary + ' text-white' : 'bg-gray-100 text-gray-800 hover:bg-gray-200'}`} onClick={() => onSelectTeam(team.id)}>
             {team.name}
           </button>)}
       </div>

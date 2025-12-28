@@ -6,14 +6,14 @@ const Home: React.FC = () => {
   const pastMatches = [{
     id: 1,
     homeTeam: 'FC Coussa Hers',
-    awayTeam: 'AS Saint-Étienne',
+    awayTeam: 'Equipe',
     homeScore: 2,
     awayScore: 1,
     date: '12/11/2023',
     venue: 'Stade Municipal, Coussa'
   }, {
     id: 2,
-    homeTeam: 'FC Toulouse',
+    homeTeam: 'Equipe',
     awayTeam: 'FC Coussa Hers',
     homeScore: 0,
     awayScore: 3,
@@ -22,7 +22,7 @@ const Home: React.FC = () => {
   }, {
     id: 3,
     homeTeam: 'FC Coussa Hers',
-    awayTeam: 'Montpellier HSC',
+    awayTeam: 'Equipe',
     homeScore: 1,
     awayScore: 1,
     date: '29/10/2023',
@@ -30,7 +30,7 @@ const Home: React.FC = () => {
   }];
   const upcomingMatches = [{
     id: 4,
-    homeTeam: 'Olympique de Marseille',
+    homeTeam: 'Equipe',
     awayTeam: 'FC Coussa Hers',
     date: '19/11/2023',
     time: '15:00',
@@ -38,13 +38,13 @@ const Home: React.FC = () => {
   }, {
     id: 5,
     homeTeam: 'FC Coussa Hers',
-    awayTeam: 'RC Lens',
+    awayTeam: 'Equipe',
     date: '26/11/2023',
     time: '15:00',
     venue: 'Stade Municipal, Coussa'
   }, {
     id: 6,
-    homeTeam: 'OGC Nice',
+    homeTeam: 'Equipe',
     awayTeam: 'FC Coussa Hers',
     date: '03/12/2023',
     time: '15:00',

@@ -1,79 +1,134 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { MenuIcon, XIcon } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
+import { MenuIcon, XIcon, Facebook } from 'lucide-react'; // J'utilise l'icone Lucide pour Facebook c'est plus propre
+import { clubConfig } from '../../config/clubConfig';
+
+// 1. On définit la structure de nos liens
+const NAV_ITEMS = [
+  { label: 'Accueil', path: '/', type: 'internal' },
+  { label: 'Le Club', path: '/club', type: 'internal' },
+  { label: 'Équipes', path: '/equipes', type: 'internal' },
+  { label: 'Compétitions', path: 'https://example.com/competitions', type: 'external' },
+  { label: 'Partenaires', path: '/partenaires', type: 'internal' },
+  // Le bouton Boutique est spécial, on le gère via une propriété isButton
+  { label: 'Boutique', path: clubConfig.contact.shopUrl, type: 'external', isButton: true },
+];
+
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+  const location = useLocation(); // Pour savoir sur quelle page on est (optionnel)
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+  // 2. Fonction utilitaire pour générer un lien
+  const renderNavLink = (item: typeof NAV_ITEMS[0], isMobile: boolean) => {
+    // Styles de base
+    const baseClass = "font-medium transition-colors duration-200";
+    
+    // Styles spécifiques Desktop vs Mobile
+    const mobileClass = "block py-2 text-base";
+    const desktopClass = "text-sm md:text-base";
+    
+    // Styles spécifiques Bouton vs Lien texte
+    let colorClass = "text-gray-800 hover:text-" + clubConfig.colors.secondary;
+    if (item.isButton) {
+        colorClass = isMobile 
+            ? `text-white bg-${clubConfig.colors.secondary} hover:bg-${clubConfig.colors.primary} px-4 py-2 rounded-md text-center mt-2`
+            : `text-white bg-${clubConfig.colors.secondary} hover:bg-${clubConfig.colors.primary} px-4 py-2 rounded-md`;
+    }
+
+    // Gestion de l'état "Actif" (si on est sur la page)
+    const isActive = location.pathname === item.path && !item.isButton;
+    const activeClass = isActive ? `text-${clubConfig.colors.primary} font-bold` : "";
+
+    const finalClass = `${baseClass} ${isMobile ? mobileClass : desktopClass} ${colorClass} ${activeClass}`;
+
+    // Rendu conditionnel (Lien Interne ou Externe)
+    if (item.type === 'external') {
+      return (
+        <a 
+          key={item.label}
+          href={item.path} 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className={finalClass}
+          onClick={() => isMobile && setIsMenuOpen(false)} // Ferme le menu au clic en mobile
+        >
+          {item.label}
+        </a>
+      );
+    }
+
+    return (
+      <Link 
+        key={item.label}
+        to={item.path} 
+        className={finalClass}
+        onClick={() => isMobile && setIsMenuOpen(false)}
+      >
+        {item.label}
+      </Link>
+    );
   };
-  return <header className="sticky top-0 z-50 bg-white shadow-md">
+
+  return (
+    <header className="sticky top-0 z-50 bg-white shadow-md">
       <div className="container mx-auto px-4 py-3 md:py-4">
         <div className="flex items-center justify-between">
+          
           {/* Logo */}
-          <Link to="/" className="flex items-center">
-            <img src="/logo.webp" alt="FC Coussa Hers" className="h-16 w-16 object-contain" />
+          <Link to="/" className="flex items-center group">
+            <img 
+              src={clubConfig.identity.logoUrl} 
+              alt={clubConfig.identity.name} 
+              className="h-16 w-16 object-contain transition-transform group-hover:scale-105" 
+            />
             <div className="ml-2">
-              <h1 className="font-bold text-green-800 text-lg md:text-xl">
-                FC Coussa Hers
+              <h1 className={`font-bold text-${clubConfig.colors.primary} text-lg md:text-xl`}>
+                {clubConfig.identity.name}
               </h1>
             </div>
           </Link>
+
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-6">
-            <Link to="/" className="font-medium text-gray-800 hover:text-green-700 transition-colors">
-              Accueil
-            </Link>
-            <Link to="/club" className="font-medium text-gray-800 hover:text-green-700 transition-colors">
-              Le Club
-            </Link>
-            <Link to="/equipes" className="font-medium text-gray-800 hover:text-green-700 transition-colors">
-              Équipes
-            </Link>
-            <a href="https://example.com/competitions" target="_blank" rel="noopener noreferrer" className="font-medium text-gray-800 hover:text-green-700 transition-colors">
-              Compétitions
-            </a>
-            <Link to="/partenaires" className="font-medium text-gray-800 hover:text-green-700 transition-colors">
-              Partenaires
-            </Link>
-            <a href="https://team.jako.com/fr-fr/team/f_c_coussa_hers/" target="_blank" rel="noopener noreferrer" className="font-medium text-white bg-green-700 hover:bg-green-800 px-4 py-2 rounded-md transition-colors">
-              Boutique
-            </a>
-            <a href="https://www.facebook.com/fc.c.hers/?locale=fr_FR" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-              </svg>
+            {/* On boucle sur notre tableau */}
+            {NAV_ITEMS.map(item => renderNavLink(item, false))}
+            
+            {/* L'icône Facebook reste à part car ce n'est pas du texte */}
+            <a href={clubConfig.contact.facebookUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 transition-colors">
+              <Facebook size={24} />
             </a>
           </nav>
+
           {/* Mobile menu button */}
-          <button className="md:hidden rounded-md p-2 text-gray-800 hover:bg-gray-100" onClick={toggleMenu}>
+          <button 
+            className="md:hidden rounded-md p-2 text-gray-800 hover:bg-gray-100 focus:outline-none" 
+            onClick={toggleMenu}
+            aria-label="Menu"
+          >
             {isMenuOpen ? <XIcon size={24} /> : <MenuIcon size={24} />}
           </button>
         </div>
+
         {/* Mobile Navigation */}
-        {isMenuOpen && <nav className="md:hidden pt-4 pb-3 space-y-3">
-            <Link to="/" className="block font-medium text-gray-800 hover:text-green-700 py-2">
-              Accueil
-            </Link>
-            <Link to="/club" className="block font-medium text-gray-800 hover:text-green-700 py-2">
-              Le Club
-            </Link>
-            <Link to="/equipes" className="block font-medium text-gray-800 hover:text-green-700 py-2">
-              Équipes
-            </Link>
-            <a href="https://example.com/competitions" target="_blank" rel="noopener noreferrer" className="block font-medium text-gray-800 hover:text-green-700 py-2">
-              Compétitions
+        {isMenuOpen && (
+          <nav className="md:hidden pt-4 pb-3 space-y-2 border-t mt-2">
+            {NAV_ITEMS.map(item => renderNavLink(item, true))}
+            
+            <a 
+                href={clubConfig.contact.facebookUrl} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="flex items-center text-blue-600 hover:text-blue-800 py-2 font-medium"
+            >
+              <Facebook size={20} className="mr-2" /> Facebook
             </a>
-            <Link to="/partenaires" className="block font-medium text-gray-800 hover:text-green-700 py-2">
-              Partenaires
-            </Link>
-            <a href="https://example.com/boutique" target="_blank" rel="noopener noreferrer" className="block font-medium text-white bg-green-700 hover:bg-green-800 px-4 py-2 rounded-md text-center">
-              Boutique
-            </a>
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="block text-blue-600 hover:text-blue-800 py-2">
-              Facebook
-            </a>
-          </nav>}
+          </nav>
+        )}
       </div>
-    </header>;
+    </header>
+  );
 };
+
 export default Header;

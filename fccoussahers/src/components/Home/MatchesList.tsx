@@ -1,5 +1,6 @@
 import React from 'react';
 import MatchCard from './MatchCard';
+import {clubConfig} from '../../config/clubConfig';
 interface MatchesListProps {
   title: string;
   isPast: boolean;
@@ -20,7 +21,7 @@ const MatchesList: React.FC<MatchesListProps> = ({
   matches
 }) => {
   return <div>
-      <h2 className="text-2xl font-bold text-green-800 mb-4">{title}</h2>
+      <h2 className={`text-2xl font-bold text-${clubConfig.colors.primary} mb-4`}>{title}</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {matches.map(match => <MatchCard key={match.id} homeTeam={match.homeTeam} awayTeam={match.awayTeam} homeScore={match.homeScore} awayScore={match.awayScore} date={match.date} time={match.time} venue={match.venue} isPast={isPast} />)}
       </div>
