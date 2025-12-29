@@ -11,6 +11,16 @@ export const clubConfig = {
       third: "green-900",
       color600: "green-600",
       color100: "green-100",
+      
+    },
+    theme: {
+      primary: "22 101 52",
+      primaryDark: "20 83 45",
+      primaryLight: "22 163 74",
+      secondary: "21 128 61",
+      accent: "220 252 231",
+      accentHover: "187 247 208",
+      surface: "240 253 244",
     },
     contact: {
       address: "17 Rue du Château, 09100 Les Pujols",
