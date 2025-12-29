@@ -3,3 +3,16 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 /* DO NOT DELETE THESE TAILWIND IMPORTS, OTHERWISE THE STYLING WILL NOT RENDER AT ALL */
+
+@layer base {
+  :root {
+    /* Format RGB requis pour l'opacité Tailwind : r g b (sans virgules) */
+    --color-primary: 22 101 52;         /* green-800 */
+    --color-primary-dark: 20 83 45;      /* green-900 : rgb(20, 83, 45) */
+    --color-primary-light: 22 163 74;    /* green-600 : rgb(22, 163, 74) */
+    --color-secondary: 21 128 61;       /* green-700 */
+    --color-accent: 220 252 231;        /* green-100 */
+    --color-accent-hover: 187 247 208;  /* green-200 */
+    --color-surface: 240 253 244;       /* green-50 */
+  }
+}

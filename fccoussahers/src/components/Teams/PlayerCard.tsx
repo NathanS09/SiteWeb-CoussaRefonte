@@ -14,8 +14,8 @@ const PlayerCard: React.FC<PlayerCardProps> = ({
   player
 }) => {
   return <div className="flex flex-col items-center">
-      <div className={`w-16 h-16 md:w-20 md:h-20 rounded-full bg-white border-2 border-${clubConfig.colors.primary} overflow-hidden flex items-center justify-center relative`}>
-        {player.image ? <img src={player.image} alt={player.name} className="w-full h-full object-cover" /> : <span className={`text-${clubConfig.colors.primary} font-bold text-xl`}>
+      <div className={`w-16 h-16 md:w-20 md:h-20 rounded-full bg-white border-2 border-primary overflow-hidden flex items-center justify-center relative`}>
+        {player.image ? <img src={player.image} alt={player.name} className="w-full h-full object-cover" /> : <span className={`text-primary font-bold text-xl`}>
             {player.number}
           </span>}
       </div>

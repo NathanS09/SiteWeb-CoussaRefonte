@@ -1,7 +1,7 @@
 import React, { lazy } from 'react';
 const Club: React.FC = () => {
   return <div className="w-full bg-gray-50">
-      <div className="bg-green-800 text-white py-16">
+      <div className="bg-primary text-white py-16">
         <div className="container mx-auto px-4">
           <h1 className="text-3xl md:text-4xl font-bold mb-4">Notre Club</h1>
           <p className="text-lg max-w-3xl">
@@ -16,7 +16,7 @@ const Club: React.FC = () => {
             <div className="flex justify-center mb-8">
               <img src="/logo.webp" alt="Logo FC Coussa Hers" className="h-48 w-48 object-contain" />
             </div>
-            <h2 className="text-2xl font-bold text-green-800 mb-4">
+            <h2 className="text-2xl font-bold text-primary mb-4">
               Historique du club
             </h2>
             <div className="prose max-w-none">
@@ -56,9 +56,9 @@ const Club: React.FC = () => {
                   contrat professionnel en 2023)
                 </li>
               </ul>
-              <p className="mt-4 font-bold text-green-800">Allez le FCCH !!!</p>
+              <p className="mt-4 font-bold text-primary">Allez le FCCH !!!</p>
             </div>
-            <h2 className="text-2xl font-bold text-green-800 mt-10 mb-4">
+            <h2 className="text-2xl font-bold text-primary mt-10 mb-4">
               Bureau du club
             </h2>
             <div className="bg-white p-6 rounded-lg shadow-md">
@@ -114,12 +114,12 @@ const Club: React.FC = () => {
           </div>
           <div>
             <div className="sticky top-24">
-              <h2 className="text-2xl font-bold text-green-800 mb-4">
+              <h2 className="text-2xl font-bold text-primary mb-4">
                 Nos Stades
               </h2>
               {/* Site de Coussa */}
               <div className="bg-white rounded-lg overflow-hidden shadow-lg mb-8">
-                <div className="p-4 bg-green-700 text-white">
+                <div className="p-4 bg-secondary text-white">
                   <h3 className="text-xl font-bold">Site de Coussa</h3>
                   <p>Chem. de la Prade, 09120 Coussa</p>
                 </div>
@@ -131,7 +131,7 @@ const Club: React.FC = () => {
               </div>
               {/* Site des Pujols */}
               <div className="bg-white rounded-lg overflow-hidden shadow-lg mb-8">
-                <div className="p-4 bg-green-700 text-white">
+                <div className="p-4 bg-secondary text-white">
                   <h3 className="text-xl font-bold">Site des Pujols</h3>
                   <p>1 Chemin du Payroulie, 09100 Les Pujols</p>
                 </div>
@@ -141,8 +141,8 @@ const Club: React.FC = () => {
                 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Stade des Pujols"></iframe>
                 </div>
               </div>
-              <div className="bg-green-50 p-6 rounded-lg border border-green-200 mt-8">
-                <h3 className="font-bold text-lg text-green-800 mb-3">
+              <div className="bg-accent-light p-6 rounded-lg border border-accent-hover mt-8">
+                <h3 className="font-bold text-lg text-primary mb-3">
                   Nous rendre visite
                 </h3>
                 <p>

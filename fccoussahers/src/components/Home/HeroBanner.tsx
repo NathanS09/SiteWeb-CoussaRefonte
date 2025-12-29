@@ -7,7 +7,7 @@ const HeroBanner: React.FC = () => {
       backgroundImage: "url('https://images.unsplash.com/photo-1508098682722-e99c43a406b2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')",
       opacity: 0.7
     }}></div>
-      <div className={`absolute inset-0 bg-gradient-to-t from-${clubConfig.colors.third} to-transparent opacity-70`}></div>
+      <div className={`absolute inset-0 bg-gradient-to-t from-primary-dark to-transparent opacity-70`}></div>
       <div className="container mx-auto px-4 h-full flex flex-col justify-center items-center relative z-10 text-center">
         <div className="bg-white/90 rounded-full p-6 mb-6">
           <img src={clubConfig.identity.logoUrl} alt={clubConfig.identity.name} className="h-24 w-24 object-contain" />
@@ -19,7 +19,7 @@ const HeroBanner: React.FC = () => {
         {clubConfig.identity.slogan}
         </p>
         <div className="mt-10">
-          <a href="#matches" className={` bg-${clubConfig.colors.secondary} hover:${clubConfig.colors.primary} text-white font-bold py-3 px-8 rounded-md shadow-lg transition-all transform hover:scale-105`}>
+          <a href="#matches" className={` bg-secondary hover:primary text-white font-bold py-3 px-8 rounded-md shadow-lg transition-all transform hover:scale-105`}>
             Voir les matchs
           </a>
         </div>

@@ -22,7 +22,7 @@ const MatchCard: React.FC<MatchCardProps> = ({
   isPast
 }) => {
   return <div className="bg-white rounded-lg shadow-md overflow-hidden">
-      <div className={`bg-${clubConfig.colors.secondary} text-white py-2 px-4 text-center font-medium`}>
+      <div className={`bg-secondary text-white py-2 px-4 text-center font-medium`}>
         {isPast ? 'Match terminé' : 'Match à venir'}
       </div>
       <div className="p-4">

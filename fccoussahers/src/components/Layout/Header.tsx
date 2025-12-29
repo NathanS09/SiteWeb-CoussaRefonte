@@ -30,16 +30,16 @@ const Header: React.FC = () => {
     const desktopClass = "text-sm md:text-base";
     
     // Styles spécifiques Bouton vs Lien texte
-    let colorClass = "text-gray-800 hover:text-" + clubConfig.colors.secondary;
+    let colorClass = "text-gray-800 hover:text-secondary";
     if (item.isButton) {
         colorClass = isMobile 
-            ? `text-white bg-${clubConfig.colors.secondary} hover:bg-${clubConfig.colors.primary} px-4 py-2 rounded-md text-center mt-2`
-            : `text-white bg-${clubConfig.colors.secondary} hover:bg-${clubConfig.colors.primary} px-4 py-2 rounded-md`;
+            ? `text-white bg-secondary hover:bg-primary px-4 py-2 rounded-md text-center mt-2`
+            : `text-white bg-secondary hover:bg-primary px-4 py-2 rounded-md`;
     }
 
     // Gestion de l'état "Actif" (si on est sur la page)
     const isActive = location.pathname === item.path && !item.isButton;
-    const activeClass = isActive ? `text-${clubConfig.colors.primary} font-bold` : "";
+    const activeClass = isActive ? `text-primary font-bold` : "";
 
     const finalClass = `${baseClass} ${isMobile ? mobileClass : desktopClass} ${colorClass} ${activeClass}`;
 
@@ -84,7 +84,7 @@ const Header: React.FC = () => {
               className="h-16 w-16 object-contain transition-transform group-hover:scale-105" 
             />
             <div className="ml-2">
-              <h1 className={`font-bold text-${clubConfig.colors.primary} text-lg md:text-xl`}>
+              <h1 className={`font-bold text-primary text-lg md:text-xl`}>
                 {clubConfig.identity.name}
               </h1>
             </div>

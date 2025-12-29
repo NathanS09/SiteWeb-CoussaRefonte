@@ -4,7 +4,7 @@ import { Mail, Phone, MapPin } from 'lucide-react';
 import { clubConfig } from '../../config/clubConfig';
 
 const Footer: React.FC = () => {
-  return <footer className={`bg-${clubConfig.colors.primary} text-white`}>
+  return <footer className={`bg-primary text-white`}>
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Club Info */}
@@ -74,7 +74,7 @@ const Footer: React.FC = () => {
             </a>
           </div>
         </div>
-        <div className={`border-t border-${clubConfig.colors.secondary} mt-8 pt-6 text-center text-sm`}>
+        <div className={`border-t border-secondary mt-8 pt-6 text-center text-sm`}>
           <p>
             © {new Date().getFullYear()} FC Coussa Hers. Tous droits réservés.
           </p>
