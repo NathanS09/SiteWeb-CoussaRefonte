@@ -5,14 +5,6 @@ export const clubConfig = {
       shortName: "FCCH",
       logoUrl: "/logo.webp", // Plus tard, ça viendra de la DB
     },
-    colors: {
-      primary: "green-800",
-      secondary: "green-700",
-      third: "green-900",
-      color600: "green-600",
-      color100: "green-100",
-      
-    },
     theme: {
       primary: "22 101 52",
       primaryDark: "20 83 45",
@@ -27,7 +19,8 @@ export const clubConfig = {
       phone: "05 61 68 71 44",
       email: "581747@footoccitanie.fr",
       facebookUrl: "https://www.facebook.com/fc.c.hers/?locale=fr_FR",
-      shopUrl: "https://team.jako.com/fr-fr/team/f_c_coussa_hers/"
+      shopUrl: "https://team.jako.com/fr-fr/team/f_c_coussa_hers/",
+      competitionsUrl: "https://ariegefoot.fff.fr/competitions/",
     },
     partners: {
       districtUrl: "https://ariege.fff.fr/",

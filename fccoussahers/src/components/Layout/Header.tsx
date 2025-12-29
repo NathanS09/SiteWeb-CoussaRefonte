@@ -8,7 +8,7 @@ const NAV_ITEMS = [
   { label: 'Accueil', path: '/', type: 'internal' },
   { label: 'Le Club', path: '/club', type: 'internal' },
   { label: 'Équipes', path: '/equipes', type: 'internal' },
-  { label: 'Compétitions', path: 'https://example.com/competitions', type: 'external' },
+  { label: 'Compétitions', path: clubConfig.contact.competitionsUrl, type: 'external' },
   { label: 'Partenaires', path: '/partenaires', type: 'internal' },
   // Le bouton Boutique est spécial, on le gère via une propriété isButton
   { label: 'Boutique', path: clubConfig.contact.shopUrl, type: 'external', isButton: true },
