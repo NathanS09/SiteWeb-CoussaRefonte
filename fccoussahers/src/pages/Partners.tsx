@@ -1,13 +1,41 @@
 import React from 'react';
 import PartnerCard from '../components/Partners/PartnerCard';
-// Updated data with real partner logos
-import { PARTNERS_DATA } from '../data/partners';
+import { fetchPartenaires, getPbImageUrl } from '../api.tsx';
+import { useEffect, useState } from 'react';
+import { Partner } from '../data/partners.ts';
 
 
 const Partners: React.FC = () => {
-  // Separate featured partners (first two) from regular partners
-  const featuredPartners = PARTNERS_DATA.filter(p => p.isFeatured);
-  const regularPartners = PARTNERS_DATA.filter(p => !p.isFeatured);
+  const [partners, setPartners] = useState<Partner[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadPartners = async () => {
+      const data = await fetchPartenaires();
+      if (data) {
+        const formattedPartners: Partner[] = data.map((record: any) => ({
+          id: record.id,
+          name: record.name,
+          description: record.description,
+          logo: getPbImageUrl(record, record.logo) || '',
+          website: record.website,
+          isFeatured: record.isFeatured,
+        }));
+        setPartners(formattedPartners);
+      }
+      setLoading(false);
+    }
+    loadPartners();
+  }, []);
+  
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+
+
+  const featuredPartners = partners.filter(p => p.isFeatured);
+  const regularPartners = partners.filter(p => !p.isFeatured);
   return <div className="w-full bg-gray-50">
       <div className="bg-primary text-white py-16">
         <div className="container mx-auto px-4">
