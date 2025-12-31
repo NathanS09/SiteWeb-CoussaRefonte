@@ -43,5 +43,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            cd /home/ubuntu/saas/
             sudo docker pull ghcr.io/nathans09/webcoussa:latest
             sudo docker compose up -d --force-recreate
