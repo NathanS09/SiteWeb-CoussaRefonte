@@ -23,7 +23,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/${{ github.repository }}:latest
+          tags: ghcr.io/nathans09/webcoussa:latest
           build-args: |
             VITE_API_URL=${{ secrets.VITE_API_URL }}
 
