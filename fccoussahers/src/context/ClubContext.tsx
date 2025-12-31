@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { fetchDonnees, fetchPartenaires, fetchTeams, fetchBoardMembers, fetchClubInfo } from '../api';
+import { fetchDonnees, fetchPartenaires, fetchTeams, fetchBoardMembers, fetchClubInfo, fetchEvents, fetchAmicale} from '../api';
 
 interface ClubContextType {
   matches: any[];
@@ -7,6 +7,8 @@ interface ClubContextType {
   teams: any[];
   boardMembers: any[];
   clubInfo: any;
+  events: any[];
+  amicale: any[];
   loading: boolean;
 }
 
@@ -19,6 +21,8 @@ export const ClubProvider: React.FC<{ children: React.ReactNode }> = ({ children
     teams: [],
     boardMembers: [],
     clubInfo: null,
+    events: [],
+    amicale: [],
     loading: true,
   });
 
@@ -26,12 +30,14 @@ export const ClubProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const loadAll = async () => {
       console.log("Chargement des données...");
 
-      const [matches, partners, teams, boardMembers, clubInfo] = await Promise.all([
+      const [matches, partners, teams, boardMembers, clubInfo, events, amicale] = await Promise.all([
         fetchDonnees(),
         fetchPartenaires(),
         fetchTeams(),
         fetchBoardMembers(),
-        fetchClubInfo('FCCH')
+        fetchClubInfo('FCCH'),
+        fetchEvents(),
+        fetchAmicale()
       ]);
 
       setData({
@@ -40,6 +46,8 @@ export const ClubProvider: React.FC<{ children: React.ReactNode }> = ({ children
         teams: teams || [],
         boardMembers: boardMembers || [],
         clubInfo: clubInfo,
+        events: events || [],
+        amicale: amicale || [],
         loading: false,
       });
     };

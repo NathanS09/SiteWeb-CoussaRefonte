@@ -62,6 +62,30 @@ export async function fetchClubInfo(slug: string) {
     }
 }
 
+export async function fetchEvents() {
+    try {
+        const records = await pb.collection('events').getFullList({
+            sort: '-start_date',
+        });
+        return records;
+    } catch (error) {
+        console.error("Erreur events :", error);
+        return [];
+    }
+}
+
+export async function fetchAmicale() {
+    try {
+        const records = await pb.collection('amicale').getFullList({
+            sort: '-created',
+        });
+        return records;
+    } catch (error) {
+        console.error("Erreur amicale :", error);
+        return [];
+    }
+}
+
 export function getPbImageUrl(record: any, fileName: string) {
     if (!fileName) return null;
     return `${pb.baseUrl}/api/files/${record.collectionId}/${record.id}/${fileName}`;

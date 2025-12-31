@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Club from './pages/Club';
 import Teams from './pages/Teams';
 import Partners from './pages/Partners';
+import Events from './pages/Events';
 import { clubConfig } from './config/clubConfig';
 import { useEffect } from 'react';
 import { ClubProvider } from './context/ClubContext';
@@ -30,6 +31,7 @@ export function App() {
           <Route path="/club" element={<Club />} />
           <Route path="/equipes" element={<Teams />} />
           <Route path="/partenaires" element={<Partners />} />
+          <Route path="/evenements" element={<Events />} />
         </Routes>
       </Layout>
     </Router>;
