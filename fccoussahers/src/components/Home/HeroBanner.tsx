@@ -19,8 +19,8 @@ const HeroBanner: React.FC = () => {
         {clubConfig.identity.slogan}
         </p>
         <div className="mt-10">
-          <a href="#matches" className={` bg-secondary hover:primary text-white font-bold py-3 px-8 rounded-md shadow-lg transition-all transform hover:scale-105`}>
-            Voir les matchs
+          <a href="/evenements" className={` bg-secondary hover:primary text-white font-bold py-3 px-8 rounded-md shadow-lg transition-all transform hover:scale-105`}>
+            Voir les événements à venir
           </a>
         </div>
       </div>

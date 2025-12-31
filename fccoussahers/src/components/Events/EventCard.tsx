@@ -27,10 +27,6 @@ const EventCard: React.FC<EventCardProps> = ({ evt, onClick }) => {
     >
       
         <div className="h-56 overflow-hidden relative">
-          {/* Badge Date */}
-          <div className="absolute top-2 right-2 bg-white/95 px-3 py-1 rounded-md font-bold text-primary text-xs shadow-sm z-10 uppercase tracking-wide">
-            {evt.startObj.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
-          </div>
           {evt.image && (
           <img 
             src={evt.image} 
@@ -39,7 +35,7 @@ const EventCard: React.FC<EventCardProps> = ({ evt, onClick }) => {
           /> ) || (
             <img src={clubConfig.identity.logoUrl} alt={evt.title} className="w-full h-full object-contain p-10 bg-gray-100" />
           )}
-          {/* Overlay "Voir plus" */}
+
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
             <span className="opacity-0 group-hover:opacity-100 bg-white text-primary px-4 py-2 rounded-full font-bold shadow-lg transform scale-90 group-hover:scale-100 transition-all">
               Voir détails

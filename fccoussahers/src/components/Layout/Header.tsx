@@ -19,6 +19,7 @@ const NAV_ITEMS = [
   
   { label: 'Partenaires', path: '/partenaires', type: 'internal' },
   { label: 'Événements', path: '/evenements', type: 'internal' },
+  { label: 'Amicale', path: '/amicale', type: 'internal' },
   { label: 'Boutique', path: clubConfig.contact.shopUrl, type: 'external', isButton: true },
 ];
 
