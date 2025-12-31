@@ -1,41 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import TeamSelector from '../components/Teams/TeamSelector';
-import TeamFormation from '../components/Teams/TeamFormation';
 import TeamOverview from '../components/Teams/TeamOverview';
-import { fetchTeams, getPbImageUrl } from '../api.tsx';
-import { Team } from '../data/teams.ts';
 import { clubConfig } from '../config/clubConfig.ts';
+import { useClubData } from '../context/ClubContext.tsx';
+import { getPbImageUrl } from '../api.tsx';
 
 const Teams: React.FC = () => {
-  const [teams, setTeams] = useState<Team[]>([]);
+  const { teams: rawTeams, loading } = useClubData();
   const [activeTeam, setActiveTeam] = useState<string>('');
-  const [loadingTeams, setLoadingTeams] = useState(true);
 
+  const teams = rawTeams.map(t => ({
+    ...t,
+    image: t.image ? getPbImageUrl(t, t.image) : null,
+  }));
 
   useEffect(() => {
-    const loadTeams = async () => {
-      const data = await fetchTeams();
-      if (data && data.length > 0) {
-        const formattedTeams: Team[] = data.map((record: any) => ({
-          id: record.id,
-          name: record.name,
-          category: record.category,
-          coach: record.coach,
-          description: record.description,
-          image: getPbImageUrl(record, record.image) || '',
-        }));
-        
-        setTeams(formattedTeams);
-        setActiveTeam(formattedTeams[0].id as string); // Sélectionne la 1ère par défaut
-      }
-      setLoadingTeams(false);
-    };
-    loadTeams();
-  }, []);
+    if (teams.length > 0 && activeTeam === '') {
+      setActiveTeam(teams[0].id); // Ou teams[0].id si c'est un string
+    }
+  }, [teams, activeTeam]);
 
   const currentTeam = teams.find(t => t.id === activeTeam);
 
-  if (loadingTeams) {
+  if (loading) {
     return (
       <div className="w-full h-screen flex justify-center items-center">
          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>

@@ -21,12 +21,13 @@ export const clubConfig = {
       facebookUrl: "https://www.facebook.com/fc.c.hers/?locale=fr_FR",
       shopUrl: "https://team.jako.com/fr-fr/team/f_c_coussa_hers/",
       competitionsUrl: "https://ariegefoot.fff.fr/competitions/",
+      competitionsUrl2: "https://haute-garonne.fff.fr/competitions/",
     },
     partners: {
-      districtUrl: "https://ariege.fff.fr/",
-      districtImgUrl: "/district_ariege.webp",
+      districtUrl: "https://ariegefoot.fff.fr/",
+      districtImgUrl: "/partners/district_ariege.webp",
       ligueUrl: "https://occitanie.fff.fr/",
-      ligueImgUrl: "/Ligue_de_Football_dOccitanie.svg"
+      ligueImgUrl: "/partners/Ligue_de_Football_dOccitanie.svg"
 
     }
   };

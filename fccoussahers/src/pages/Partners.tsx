@@ -1,37 +1,20 @@
 import React from 'react';
 import PartnerCard from '../components/Partners/PartnerCard';
-import { fetchPartenaires, getPbImageUrl } from '../api.tsx';
-import { useEffect, useState } from 'react';
-import { Partner } from '../data/partners.ts';
+import { getPbImageUrl } from '../api.tsx';
+import { useClubData } from '../context/ClubContext';
 
 
 const Partners: React.FC = () => {
-  const [partners, setPartners] = useState<Partner[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const loadPartners = async () => {
-      const data = await fetchPartenaires();
-      if (data) {
-        const formattedPartners: Partner[] = data.map((record: any) => ({
-          id: record.id,
-          name: record.name,
-          description: record.description,
-          logo: getPbImageUrl(record, record.logo) || '',
-          website: record.website,
-          isFeatured: record.isFeatured,
-        }));
-        setPartners(formattedPartners);
-      }
-      setLoading(false);
-    }
-    loadPartners();
-  }, []);
+  const { partners: rawPartner, loading } = useClubData();
   
   if (loading) {
     return <div>Loading...</div>;
   }
 
+  const partners = rawPartner.map(p => ({
+    ...p,
+    logo: p.logo ? getPbImageUrl(p, p.logo) : null,
+  }));
 
 
   const featuredPartners = partners.filter(p => p.isFeatured);
@@ -74,7 +57,7 @@ const Partners: React.FC = () => {
             nos valeurs ? Contactez-nous pour découvrir nos offres de
             partenariat.
           </p>
-          <a href="mailto:partenariats@fccousahers.fr" className="inline-block bg-secondary hover:bg-primary text-white font-bold py-3 px-6 rounded-md transition-colors">
+          <a href="mailto:sylvainjf.loze@gmail.com,mairie.lespujols@orange.fr?subject=Demande de Partenariat FCCH" target="_blank" className="inline-block bg-secondary hover:bg-primary text-white font-bold py-3 px-6 rounded-md transition-colors">
             Nous contacter
           </a>
         </div>

@@ -14,6 +14,7 @@ interface TeamOverviewProps {
 }
 
 const TeamOverview: React.FC<TeamOverviewProps> = ({ team }) => {
+  console.log('Rendering TeamOverview for team:', team);
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
       {/* CHANGEMENT ICI : On utilise aspect-video au lieu de h-48 */}
@@ -22,8 +23,8 @@ const TeamOverview: React.FC<TeamOverviewProps> = ({ team }) => {
           <img 
             src={team.image} 
             alt={`Équipe ${team.name}`} 
-            /* object-cover remplit le cadre, object-top assure qu'on ne coupe pas les têtes */
-            className="w-full h-full object-cover object-top" 
+
+            className="w-full h-full object-contain" 
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gray-100">

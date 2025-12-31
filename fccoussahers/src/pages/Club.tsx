@@ -1,11 +1,66 @@
-import React from 'react';
-import { CLUB_HISTORY, CLUB_BOARD } from '../data/club';
+import React, { useState, useEffect } from 'react';
 import { clubConfig } from '../config/clubConfig';
+import { fetchBoardMembers, fetchClubInfo } from '../api';
+import { useClubData } from '../context/ClubContext';
 
 const Club: React.FC = () => {
+  const { boardMembers, clubInfo, loading } = useClubData();
+
+
+  const renderContent = (text: string) => {
+    if (!text) return <p>Historique en cours de rédaction...</p>;
+
+    const lines = text.split('\n');
+    const elements: JSX.Element[] = [];
+    let currentListItems: JSX.Element[] = [];
+
+    lines.forEach((line, index) => {
+      const trimmedLine = line.trim();
+      if (trimmedLine.startsWith('-')) {
+        // On enlève le tiret et on nettoie
+        const content = trimmedLine.substring(1).trim();
+        currentListItems.push(<li key={`li-${index}`}>{content}</li>);
+      } 
+      else {
+        if (currentListItems.length > 0) {
+          elements.push(
+            <ul key={`ul-${index}`} className="list-disc pl-6 mb-4 space-y-1">
+              {currentListItems}
+            </ul>
+          );
+          currentListItems = []; 
+        }
+
+
+        if (trimmedLine.length > 0) {
+          elements.push(
+            <p key={`p-${index}`} className="mb-4 text-gray-700 leading-relaxed">
+              {line}
+            </p>
+          );
+        }
+      }
+    });
+
+
+    if (currentListItems.length > 0) {
+      elements.push(
+        <ul key="ul-end" className="list-disc pl-6 mb-4 space-y-1">
+          {currentListItems}
+        </ul>
+      );
+    }
+
+    return elements;
+  };
+  // -----------------------------------
+
+  if (loading) {
+    return <div className="p-12 text-center">Chargement...</div>;
+  }
+
   return (
     <div className="w-full bg-gray-50">
-      {/* Header avec couleur primaire dynamique */}
       <div className="bg-primary text-white py-16">
         <div className="container mx-auto px-4">
           <h1 className="text-3xl md:text-4xl font-bold mb-4">Notre Club</h1>
@@ -18,6 +73,8 @@ const Club: React.FC = () => {
 
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          
+          {/* COLONNE GAUCHE */}
           <div>
             <div className="flex justify-center mb-8">
               <img 
@@ -28,57 +85,46 @@ const Club: React.FC = () => {
             </div>
             
             <h2 className="text-2xl font-bold text-primary mb-4">
-              {CLUB_HISTORY.title}
+              Historique du club
             </h2>
             
-            <div className="prose max-w-none">
-              {/* Mapping de l'historique */}
-              {CLUB_HISTORY.content.map((paragraph, index) => (
-                <p key={index} className={index > 0 ? "mt-4" : ""}>
-                  {paragraph}
-                </p>
-              ))}
-
-              <p className="mt-4">
-                Quelques jeunes issus de notre formation restent des exemples :
-              </p>
-              <ul className="list-disc pl-6 mt-2">
-                {/* Mapping des Success Stories */}
-                {CLUB_HISTORY.successStories.map((story, index) => (
-                  <li key={index}>{story}</li>
-                ))}
-              </ul>
-              <p className="mt-4 font-bold text-primary">
-                Allez le {clubConfig.identity.shortName} !!!
-              </p>
+            {/* On appelle notre fonction de rendu ici */}
+            <div className="text-gray-700 text-lg">
+              {renderContent(clubInfo.content)}
             </div>
+
+            <p className="mt-8 font-bold text-primary">
+                Allez le {clubConfig.identity.shortName} !!!
+            </p>
 
             <h2 className="text-2xl font-bold text-primary mt-10 mb-4">
               Bureau du club
             </h2>
             <div className="bg-white p-6 rounded-lg shadow-md">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Mapping des membres du bureau */}
-                {CLUB_BOARD.map((member, index) => (
-                  <div 
-                    key={index} 
-                    className={`pb-2 md:pb-0 ${index % 2 === 0 ? 'md:border-r md:pr-4' : ''} ${index < CLUB_BOARD.length - 1 ? 'border-b md:border-b-0' : ''}`}
-                  >
-                    <h3 className="font-bold text-lg mb-1">{member.role}</h3>
-                    <p>{member.name}</p>
-                  </div>
-                ))}
+                {boardMembers.length > 0 ? (
+                  boardMembers.map((member, index) => (
+                    <div 
+                      key={member.id} 
+                      className={`pb-2 md:pb-0 ${index % 2 === 0 ? 'md:border-r md:pr-4' : ''} border-b md:border-b-0 last:border-0`}
+                    >
+                      <h3 className="font-bold text-lg mb-1">{member.role}</h3>
+                      <p>{member.name}</p>
+                    </div>
+                  ))
+                ) : (
+                  <p>Liste des membres indisponible.</p>
+                )}
               </div>
             </div>
           </div>
 
+          {/* COLONNE DROITE (Stades - Inchangée) */}
           <div>
             <div className="sticky top-24">
               <h2 className="text-2xl font-bold text-primary mb-4">
                 Nos Stades
               </h2>
-              
-              {/* Site de Coussa */}
               <div className="bg-white rounded-lg overflow-hidden shadow-lg mb-8">
                 <div className="p-4 bg-secondary text-white">
                   <h3 className="text-xl font-bold">Site de Coussa</h3>
@@ -95,8 +141,6 @@ const Club: React.FC = () => {
                   ></iframe>
                 </div>
               </div>
-
-              {/* Site des Pujols */}
               <div className="bg-white rounded-lg overflow-hidden shadow-lg mb-8">
                 <div className="p-4 bg-secondary text-white">
                   <h3 className="text-xl font-bold">Site des Pujols</h3>
@@ -112,21 +156,6 @@ const Club: React.FC = () => {
                     title="Stade des Pujols"
                   ></iframe>
                 </div>
-              </div>
-
-              {/* Utilisation de bg-surface pour le fond léger et border-accent-hover */}
-              <div className="bg-surface p-6 rounded-lg border border-accent-hover mt-8">
-                <h3 className="font-bold text-lg text-primary mb-3">
-                  Nous rendre visite
-                </h3>
-                <p>
-                  Les matchs de l'équipe première se jouent généralement au
-                  stade de Coussa.
-                </p>
-                <p className="mt-2">
-                  Pour toute information sur les lieux des rencontres, consultez
-                  notre calendrier des matchs ou contactez-nous.
-                </p>
               </div>
             </div>
           </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import MatchCard from './MatchCard';
 import {clubConfig} from '../../config/clubConfig';
 import { Match } from '../../data/matches';
+import { getPbImageUrl } from '../../utils/pocketbaseUtils';
 interface MatchesListProps {
   title: string;
   isPast: boolean;

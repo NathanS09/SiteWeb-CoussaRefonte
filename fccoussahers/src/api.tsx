@@ -1,6 +1,7 @@
 import PocketBase from 'pocketbase';
 
-const pb = new PocketBase('http://51.91.254.20:8090/');
+const apiUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8090';
+const pb = new PocketBase(apiUrl);
 
 export async function fetchDonnees() {
     try {
@@ -8,7 +9,6 @@ export async function fetchDonnees() {
             sort: '-created',
         });
 
-        console.log(records);
         return records;
 
     } catch (error) {
@@ -19,7 +19,7 @@ export async function fetchDonnees() {
 export async function fetchPartenaires() {
     try {
         const records = await pb.collection('partners').getFullList({
-            sort: '-created',
+            sort: '-sort_order', 
         });
         return records;
     } catch (error) {
@@ -31,13 +31,34 @@ export async function fetchPartenaires() {
 export async function fetchTeams() {
     try {
         const records = await pb.collection('teams').getFullList({
-            sort: 'name', // ou sort: '-created' selon ta préférence
+            sort: 'sort_order', 
         });
-        console.log('Fetched teams:', records);
         return records;
     } catch (error) {
         console.error("Erreur récupération équipes :", error);
         return [];
+    }
+}
+
+export async function fetchBoardMembers() {
+    try {
+        const records = await pb.collection('board_members').getFullList({
+            sort: 'sort_order', // On utilise notre champ de tri personnalisé
+        });
+        return records;
+    } catch (error) {
+        console.error("Erreur bureau :", error);
+        return [];
+    }
+}
+
+export async function fetchClubInfo(slug: string) {
+    try {
+        const record = await pb.collection('club_info').getFirstListItem(`slug="${slug}"`);
+        return record;
+    } catch (error) {
+        console.error("Erreur info club :", error);
+        return null;
     }
 }
 

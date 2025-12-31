@@ -7,6 +7,7 @@ import Teams from './pages/Teams';
 import Partners from './pages/Partners';
 import { clubConfig } from './config/clubConfig';
 import { useEffect } from 'react';
+import { ClubProvider } from './context/ClubContext';
 export function App() {
 
   useEffect(() => {
@@ -20,7 +21,9 @@ export function App() {
     root.style.setProperty('--color-surface', clubConfig.theme.surface);
   }, []);
 
-  return <Router>
+
+  return <ClubProvider>
+    <Router>
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -30,4 +33,5 @@ export function App() {
         </Routes>
       </Layout>
     </Router>;
+    </ClubProvider>
 }
