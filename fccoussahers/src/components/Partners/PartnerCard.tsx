@@ -15,7 +15,7 @@ const PartnerCard: React.FC<PartnerCardProps> = ({
   partner,
   featured = false
 }) => {
-  return <div className={`bg-white rounded-lg shadow-md overflow-hidden ${featured ? 'col-span-2' : ''}`}>
+  return <div className={`bg-white rounded-lg shadow-md overflow-hidden ${featured ? '' : ''}`}>
       <div className="p-6">
         <div className="h-32 flex items-center justify-center mb-4">
           <img src={partner.logo} alt={`Logo ${partner.name}`} className="max-h-full max-w-full object-contain" />

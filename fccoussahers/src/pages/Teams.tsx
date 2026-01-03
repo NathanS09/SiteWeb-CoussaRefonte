@@ -9,10 +9,23 @@ const Teams: React.FC = () => {
   const { teams: rawTeams, loading } = useClubData();
   const [activeTeam, setActiveTeam] = useState<string>('');
 
-  const teams = rawTeams.map(t => ({
-    ...t,
-    image: t.image ? getPbImageUrl(t, t.image) : null,
-  }));
+  const teams = rawTeams.map(t => {
+
+    let images: string[] = [];
+    if (Array.isArray(t.image)) {
+        images = t.image.map((img: string) => getPbImageUrl(t, img));
+        
+    } else if (t.image) {
+        // Si c'est une seule image (ancienne version)
+        images = [getPbImageUrl(t, t.image)? getPbImageUrl(t, t.image)! : ''];
+    }
+
+    return {
+      ...t,
+      images: images, 
+      image: images.length > 0 ? images[0] : null 
+    };
+  });
 
   useEffect(() => {
     if (teams.length > 0 && activeTeam === '') {
