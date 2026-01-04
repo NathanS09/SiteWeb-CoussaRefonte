@@ -90,3 +90,40 @@ export function getPbImageUrl(record: any, fileName: string) {
     if (!fileName) return null;
     return `${pb.baseUrl}/api/files/${record.collectionId}/${record.id}/${fileName}`;
 }
+
+export async function login(email: string, password: string) {
+    try {
+        const authData = await pb.collection('users').authWithPassword(email, password);
+        return authData;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export function logout() {
+    pb.authStore.clear();
+}
+
+
+export function isAuthenticated() {
+    return pb.authStore.isValid;
+}
+
+// 3. Fonction générique pour Créer (ex: un Match)
+export async function createRecord(collection: string, data: object) {
+    return await pb.collection(collection).create(data);
+}
+
+// 4. Fonction générique pour Modifier
+export async function updateRecord(collection: string, id: string, data: object) { 
+    return await pb.collection(collection).update(id, data);
+}
+
+// 5. Fonction pour supprimer
+export async function deleteRecord(collection: string, id: string) {
+    return await pb.collection(collection).delete(id);
+}
+
+export function getCurrentUser() {
+    return pb.authStore.model;
+}
