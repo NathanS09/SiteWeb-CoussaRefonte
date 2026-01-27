@@ -1,26 +1,22 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { logout, isAuthenticated, getCurrentUser } from '../../api';
-import { clubConfig } from '../../config/clubConfig';
 import { 
   LogOut, 
   Calendar, 
-  Trophy, 
   Users, 
   Image, 
   Shield, 
-  PlusCircle 
-} from 'lucide-react'; // Installez lucide-react si besoin
+  Handshake, 
+  Info
+} from 'lucide-react';
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const user = getCurrentUser();
 
-  // Protection de la route : Si pas connecté, ouste !
   useEffect(() => {
-    if (!isAuthenticated()) {
-      navigate('/admin/login');
-    }
+    if (!isAuthenticated()) navigate('/admin/login');
   }, [navigate]);
 
   const handleLogout = () => {
@@ -28,11 +24,10 @@ const Dashboard: React.FC = () => {
     navigate('/admin/login');
   };
 
-  // Composant pour les Cartes du menu (pour éviter de répéter le code)
   const DashboardCard = ({ title, desc, icon: Icon, color, onClick }: any) => (
     <button 
       onClick={onClick}
-      className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-all border border-gray-100 flex flex-col items-start text-left group"
+      className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-all border border-gray-100 flex flex-col items-start text-left group h-full"
     >
       <div className={`p-3 rounded-lg ${color} text-white mb-4 group-hover:scale-110 transition-transform`}>
         <Icon size={24} />
@@ -44,7 +39,6 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header Admin */}
       <div className="bg-white border-b border-gray-200 px-4 py-4 sticky top-0 z-10">
         <div className="container mx-auto flex justify-between items-center">
           <div className="flex items-center gap-3">
@@ -66,57 +60,58 @@ const Dashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* Contenu Principal */}
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Bienvenue au club !</h2>
-            <p className="text-gray-600">Que souhaitez-vous faire aujourd'hui ?</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">Bienvenue !</h2>
+            <p className="text-gray-600">Sélectionnez une section à gérer :</p>
         </div>
 
-        {/* Grille d'actions */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             
-            {/* GESTION MATCHS */}
+            {/* GESTION CLUB (Infos + Bureau) */}
             <DashboardCard 
-                title="Résultats & Matchs" 
-                desc="Saisir les scores du week-end ou ajouter des matchs."
-                icon={Trophy}
+                title="Infos & Bureau" 
+                desc="Modifier l'histoire du club et les membres du bureau."
+                icon={Info}
                 color="bg-blue-600"
-                onClick={() => console.log("Vers page matchs...") /* navigate('/admin/matchs') */}
+                onClick={() => navigate('/admin/club')}
             />
 
-            {/* GESTION ÉVÉNEMENTS */}
+            {/* GESTION PARTENAIRES */}
             <DashboardCard 
-                title="Agenda & Événements" 
-                desc="Créer un loto, un tournoi ou une réunion."
-                icon={Calendar}
-                color="bg-purple-600"
-                onClick={() => console.log("Vers page events...")}
+                title="Partenaires" 
+                desc="Ajouter ou modifier les sponsors."
+                icon={Handshake}
+                color="bg-emerald-600"
+                onClick={() => navigate('/admin/partenaires')}
             />
 
             {/* GESTION ÉQUIPES */}
             <DashboardCard 
-                title="Équipes & Joueurs" 
-                desc="Modifier les effectifs et les photos d'équipe."
+                title="Équipes" 
+                desc="Gérer les noms d'équipes et les coachs."
                 icon={Users}
-                color="bg-green-600"
-                onClick={() => console.log("Vers page teams...")}
+                color="bg-indigo-600"
+                onClick={() => navigate('/admin/equipes')}
             />
 
-            {/* GALERIE PHOTO */}
+            {/* GESTION ÉVÉNEMENTS */}
             <DashboardCard 
-                title="Galerie Photo (Amicale)" 
-                desc="Ajouter des souvenirs de la vie du club."
-                icon={Image}
+                title="Agenda / Événements" 
+                desc="Créer les futurs événements (Lotos, Tournois...)."
+                icon={Calendar}
                 color="bg-orange-500"
-                onClick={() => console.log("Vers page amicale...")}
+                onClick={() => navigate('/admin/evenements')}
             />
 
-            {/* RACCOURCI RAPIDE */}
-            <button className="col-span-1 md:col-span-2 lg:col-span-1 border-2 border-dashed border-gray-300 rounded-xl p-6 flex flex-col items-center justify-center text-gray-400 hover:border-primary hover:text-primary hover:bg-primary/5 transition-all cursor-pointer">
-                <PlusCircle size={32} className="mb-2" />
-                <span className="font-medium">Action Rapide</span>
-            </button>
+            {/* GESTION AMICALE */}
+            <DashboardCard 
+                title="Galerie Amicale" 
+                desc="Ajouter des photos souvenirs."
+                icon={Image}
+                color="bg-pink-500"
+                onClick={() => navigate('/admin/amicale')}
+            />
 
         </div>
       </div>

@@ -7,6 +7,7 @@ export async function fetchDonnees() {
     try {
         const records = await pb.collection('matches').getFullList({
             sort: '-created',
+            requestKey: null
         });
 
         return records;
@@ -20,6 +21,7 @@ export async function fetchPartenaires() {
     try {
         const records = await pb.collection('partners').getFullList({
             sort: '-sort_order', 
+            requestKey: null
         });
         return records;
     } catch (error) {
@@ -32,6 +34,7 @@ export async function fetchTeams() {
     try {
         const records = await pb.collection('teams').getFullList({
             sort: 'sort_order', 
+            requestKey: null
         });
         return records;
     } catch (error) {
@@ -44,6 +47,7 @@ export async function fetchBoardMembers() {
     try {
         const records = await pb.collection('board_members').getFullList({
             sort: 'sort_order', // On utilise notre champ de tri personnalisé
+            requestKey: null
         });
         return records;
     } catch (error) {
@@ -54,7 +58,9 @@ export async function fetchBoardMembers() {
 
 export async function fetchClubInfo(slug: string) {
     try {
-        const record = await pb.collection('club_info').getFirstListItem(`slug="${slug}"`);
+        const record = await pb.collection('club_info').getFirstListItem(`slug="${slug}"`, {
+            requestKey: null
+        });
         return record;
     } catch (error) {
         console.error("Erreur info club :", error);
@@ -66,6 +72,7 @@ export async function fetchEvents() {
     try {
         const records = await pb.collection('events').getFullList({
             sort: '-start_date',
+            requestKey: null
         });
         return records;
     } catch (error) {
@@ -78,6 +85,7 @@ export async function fetchAmicale() {
     try {
         const records = await pb.collection('amicale').getFullList({
             sort: '-created',
+            requestKey: null
         });
         return records;
     } catch (error) {
@@ -86,8 +94,8 @@ export async function fetchAmicale() {
     }
 }
 
-export function getPbImageUrl(record: any, fileName: string) {
-    if (!fileName) return null;
+export function getPbImageUrl(record: any, fileName: string): string {
+    if (!fileName) return '';
     return `${pb.baseUrl}/api/files/${record.collectionId}/${record.id}/${fileName}`;
 }
 
@@ -109,21 +117,39 @@ export function isAuthenticated() {
     return pb.authStore.isValid;
 }
 
-// 3. Fonction générique pour Créer (ex: un Match)
-export async function createRecord(collection: string, data: object) {
-    return await pb.collection(collection).create(data);
+// --- FONCTIONS D'ÉCRITURE (C.R.U.D) ---
+
+// Créer un nouvel élément (ex: un nouveau match)
+export async function createRecord(collection: string, data: any) {
+    try {
+        return await pb.collection(collection).create(data);
+    } catch (error) {
+        console.error(`Erreur création ${collection}:`, error);
+        throw error;
+    }
 }
 
-// 4. Fonction générique pour Modifier
-export async function updateRecord(collection: string, id: string, data: object) { 
-    return await pb.collection(collection).update(id, data);
+// Mettre à jour un élément (ex: saisir le score)
+export async function updateRecord(collection: string, id: string, data: any) {
+    try {
+        return await pb.collection(collection).update(id, data);
+    } catch (error) {
+        console.error(`Erreur mise à jour ${collection}:`, error);
+        throw error;
+    }
 }
 
-// 5. Fonction pour supprimer
+// Supprimer un élément
 export async function deleteRecord(collection: string, id: string) {
-    return await pb.collection(collection).delete(id);
+    try {
+        return await pb.collection(collection).delete(id);
+    } catch (error) {
+        console.error(`Erreur suppression ${collection}:`, error);
+        throw error;
+    }
 }
 
 export function getCurrentUser() {
     return pb.authStore.model;
 }
+
