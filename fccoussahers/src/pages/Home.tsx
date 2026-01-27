@@ -4,6 +4,7 @@ import MatchesList from '../components/Home/MatchesList';
 import { useMemo } from 'react';
 import { Match } from '../data/matches.ts';
 import { useClubData } from '../context/ClubContext.tsx';
+import SEO from '../components/SEO.tsx';
 
 interface ExtendedMatch extends Match {
   rawDate: Date;

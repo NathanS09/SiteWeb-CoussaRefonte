@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { fetchEvents, createRecord, updateRecord, deleteRecord, getPbImageUrl } from '../../api';
 import { Trash2, PlusCircle, Edit2, Calendar, X, Save, Search, Image as ImageIcon } from 'lucide-react';
 import toast from 'react-hot-toast';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import imageCompression from 'browser-image-compression';
 
 const ManageEvents: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -51,6 +54,28 @@ const ManageEvents: React.FC = () => {
     setFile(null); // Le fichier uploadé est toujours vide au début
     setIsModalOpen(true);
   };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const imageFile = e.target.files?.[0];
+  if (!imageFile) return;
+
+  const options = {
+    maxSizeMB: 1,          // Max 1 Mo
+    maxWidthOrHeight: 1920, // Max 1920px de large
+    useWebWorker: true
+  };
+
+  try {
+    const compressedFile = await imageCompression(imageFile, options);
+    // On crée un nouveau fichier File car l'API attend un File, pas un Blob
+    const finalFile = new File([compressedFile], imageFile.name, { type: imageFile.type });
+    
+    setFile(finalFile); // Ton setFile existant
+  } catch (error) {
+    console.log(error);
+    setFile(imageFile); // Fallback sur l'original si erreur
+  }
+};
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -152,7 +177,12 @@ const ManageEvents: React.FC = () => {
               </div>
               <div>
                 <label className="text-sm font-medium text-gray-700">Description</label>
-                <textarea className="w-full border rounded p-2 mt-1" rows={4} value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} />
+                <ReactQuill 
+                  theme="snow"
+                  value={formData.description}
+                  onChange={(content) => setFormData({ ...formData, description: content })}
+                  className="h-48 mb-12"
+                />
               </div>
               
               <div>
@@ -170,7 +200,7 @@ const ManageEvents: React.FC = () => {
                 )}
 
                 <div className="mt-1 flex items-center gap-2">
-                    <input type="file" accept="image/*" onChange={e => setFile(e.target.files?.[0] || null)} className="w-full text-sm" />
+                    <input type="file" accept="image/*" onChange={handleFileChange} className="w-full text-sm" />
                 </div>
               </div>
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { fetchTeams, createRecord, updateRecord, deleteRecord, getPbImageUrl } from '../../api';
 import { Trash2, PlusCircle, Edit2, Users, Save, X, Search } from 'lucide-react';
 import toast from 'react-hot-toast';
+import imageCompression from 'browser-image-compression';
 
 const ManageTeams: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -50,6 +51,28 @@ const ManageTeams: React.FC = () => {
     setFile(null);
     setIsModalOpen(true);
   };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const imageFile = e.target.files?.[0];
+  if (!imageFile) return;
+
+  const options = {
+    maxSizeMB: 1,          // Max 1 Mo
+    maxWidthOrHeight: 1920, // Max 1920px de large
+    useWebWorker: true
+  };
+
+  try {
+    const compressedFile = await imageCompression(imageFile, options);
+    // On crée un nouveau fichier File car l'API attend un File, pas un Blob
+    const finalFile = new File([compressedFile], imageFile.name, { type: imageFile.type });
+    
+    setFile(finalFile); // Ton setFile existant
+  } catch (error) {
+    console.log(error);
+    setFile(imageFile); // Fallback sur l'original si erreur
+  }
+};
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -172,7 +195,7 @@ const ManageTeams: React.FC = () => {
                                 <span className="text-xs text-gray-500">Image actuelle</span>
                             </div>
                         )}
-                        <input type="file" accept="image/*" onChange={e => setFile(e.target.files?.[0] || null)} className="w-full mt-1 text-sm" />
+                        <input type="file" accept="image/*" onChange={handleFileChange} className="w-full mt-1 text-sm" />
                     </div>
 
                     <button className="w-full bg-primary text-white py-3 rounded-xl font-bold mt-4 hover:bg-primary-dark flex justify-center gap-2">
