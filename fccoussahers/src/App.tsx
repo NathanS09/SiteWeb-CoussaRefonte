@@ -21,6 +21,8 @@ import { Toaster } from 'react-hot-toast';
 import { AdminRedirect, ProtectedRoute } from './components/Admin/AdminRoutes';
 import AdminLayout from './components/Admin/AdminLayout'; 
 import Stats from './pages/Admin/Stat';
+import Legal from './pages/Legal';
+import CookieBanner from './components/Utils/CookieBanner';
 
 export function App() {
 
@@ -48,6 +50,7 @@ export function App() {
   return <ClubProvider>
     <Router>
         <Toaster position="top-center" reverseOrder={false} />
+        <CookieBanner />
         <Routes>
           <Route element={<Layout><Outlet /></Layout>}>
             <Route path="/" element={<Home />} />
@@ -56,6 +59,7 @@ export function App() {
             <Route path="/partenaires" element={<Partners />} />
             <Route path="/evenements" element={<Events />} />
             <Route path="/amicale" element={<Amicale />} />
+            <Route path="/legal" element={<Legal />} />
           </Route>
 
           <Route element={<ProtectedRoute />}>
